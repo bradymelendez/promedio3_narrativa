@@ -12,8 +12,8 @@ public class InteraccionCanvas : MonoBehaviour
     void Start()
     {
         canvas.enabled = false;
-        Cursor.visible = false; // Al inicio, se oculta el cursor
-        Cursor.lockState = CursorLockMode.Locked; // Bloquea el cursor al centro de la pantalla
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked; 
     }
 
     void Update()
@@ -59,19 +59,19 @@ public class InteraccionCanvas : MonoBehaviour
     void ActivarCanvas()
     {
         canvasActivo = true;
-        Time.timeScale = 0; // Pausar el juego
-        canvas.enabled = true; // Mostrar el Canvas
-        Cursor.visible = true; // Muestra el cursor
-        Cursor.lockState = CursorLockMode.None; // Desbloquea el cursor
+        Time.timeScale = 0; 
+        canvas.enabled = true; 
+        Cursor.visible = true; 
+        Cursor.lockState = CursorLockMode.None; 
     }
 
     void DesactivarCanvas()
     {
         canvasActivo = false;
-        Time.timeScale = 1; // Reanudar el juego
-        canvas.enabled = false; // Ocultar el Canvas
+        Time.timeScale = 1; 
+        canvas.enabled = false; 
         esperandoSegundaPulsacion = false;
-        Cursor.visible = false; // Oculta el cursor
-        Cursor.lockState = CursorLockMode.Locked; // Bloquea el cursor
+        Cursor.visible = false; 
+        Cursor.lockState = CursorLockMode.Locked; 
     }
 }

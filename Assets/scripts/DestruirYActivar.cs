@@ -6,12 +6,19 @@ public class DestruirYActivar : MonoBehaviour
 {
     public GameObject objetoAActivar;
     public GameObject objeto;
-    private void Update()
+    private bool enterPressed = false;
+
+    void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            enterPressed = true;
+        }
+
+        if (enterPressed && Input.GetKeyDown(KeyCode.E))
         {
             objetoAActivar.SetActive(true);
-            Destroy(objeto);
+
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -21,7 +28,8 @@ public class DestruirYActivar : MonoBehaviour
             Debug.Log("Trigger con el jugador detectado");
 
             objetoAActivar.SetActive(true);
-            
+            Destroy(objeto);
+
         }
     }
 }
