@@ -15,4 +15,10 @@ public class SceneChanger : MonoBehaviour
         Application.Quit();
         Debug.Log("saliste");
     }
+    public void ClearPlayerPrefsAndLoadScene(string scenename)
+    {
+        PlayerPrefs.DeleteAll();
+        Debug.Log("All PlayerPrefs cleared");
+        SceneManager.LoadScene(scenename);
+    }
 }
