@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public int maxHealth = 5;
     public int currentHealth; 
     public HealthDisplay healthDisplay;
-
-
+    public Canvas gameOverCanvas;
+    public Button returnToCheckpointButton;
     private int healthBeforeCheckpoint;
     private Vector3 positionBeforeCheckpoint;
 
@@ -18,6 +19,11 @@ public class Player : MonoBehaviour
     {
         currentHealth = maxHealth;
         UpdateHealthDisplay();
+        if (returnToCheckpointButton != null)
+        {
+            returnToCheckpointButton.onClick.AddListener(ReturnToCheckpoint);
+            returnToCheckpointButton.gameObject.SetActive(false); 
+        }
     }
 
     public void TakeDamage(int damage)
@@ -28,6 +34,19 @@ public class Player : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            if (gameOverCanvas != null)
+            {
+                gameOverCanvas.gameObject.SetActive(true); 
+                Time.timeScale = 0f; 
+                Cursor.lockState = CursorLockMode.None; 
+                Cursor.visible = true; 
+
+                if (returnToCheckpointButton != null)
+                {
+                    returnToCheckpointButton.gameObject.SetActive(true); 
+                }
+            }
+
             if (lastCheckpoint != null)
             {
                 TeleportToCheckpoint(lastCheckpoint);
@@ -45,7 +64,7 @@ public class Player : MonoBehaviour
         lastCheckpoint = checkpoint;
     }
 
-    void TeleportToCheckpoint(Checkpoint checkpoint)
+    public void TeleportToCheckpoint(Checkpoint checkpoint)
     {
         Vector3 checkpointPosition = checkpoint.GetLastCheckpointPosition();
         transform.position = checkpointPosition;
@@ -71,6 +90,22 @@ public class Player : MonoBehaviour
         if (healthDisplay != null)
         {
             healthDisplay.UpdateHearts(currentHealth, maxHealth);
+        }
+    }
+    void ReturnToCheckpoint()
+    {
+        if (lastCheckpoint != null)
+        {
+            TeleportToCheckpoint(lastCheckpoint);
+            gameOverCanvas.gameObject.SetActive(false); 
+            Time.timeScale = 1f; 
+            Cursor.lockState = CursorLockMode.Locked; 
+            Cursor.visible = false; 
+            returnToCheckpointButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

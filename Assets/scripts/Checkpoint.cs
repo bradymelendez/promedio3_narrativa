@@ -8,29 +8,24 @@ public class Checkpoint : MonoBehaviour
 {
     public GameObject objectToSave;
     private Vector3 lastCheckpointPosition;
-    private int lastCheckpointHealth; 
+    private int lastCheckpointHealth;
 
-    private void SavePlayerProgress(Vector3 playerPosition, int playerHealth)
+    public void Start()
     {
-        string filePath = Application.persistentDataPath + "/playerProgress.txt";
-
-        try
-        {
-            using (StreamWriter writer = new StreamWriter(filePath))
-            {
-                writer.WriteLine($"Position: {playerPosition.x}, {playerPosition.y}, {playerPosition.z}");
-                writer.WriteLine($"Health: {playerHealth}");
-            }
-
-            Debug.Log("Progreso del jugador guardado en el checkpoint.");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Error al guardar el progreso: " + e.Message);
-        }
-
-        lastCheckpointPosition = playerPosition; 
+        Time.timeScale = 1;
+    }
+    public void SavePlayerProgress(Vector3 playerPosition, int playerHealth)
+    {
+        lastCheckpointPosition = playerPosition;
         lastCheckpointHealth = playerHealth;
+
+        PlayerPrefs.SetInt("HasCheckpoint", 1);
+        PlayerPrefs.SetFloat("CheckpointPositionX", lastCheckpointPosition.x);
+        PlayerPrefs.SetFloat("CheckpointPositionY", lastCheckpointPosition.y);
+        PlayerPrefs.SetFloat("CheckpointPositionZ", lastCheckpointPosition.z);
+        PlayerPrefs.SetInt("CheckpointHealth", lastCheckpointHealth);
+
+        Debug.Log("Progreso del jugador guardado en el checkpoint.");
     }
 
     public Vector3 GetLastCheckpointPosition()
@@ -43,7 +38,7 @@ public class Checkpoint : MonoBehaviour
         return lastCheckpointHealth;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == objectToSave)
         {
@@ -59,4 +54,5 @@ public class Checkpoint : MonoBehaviour
             }
         }
     }
+
 }
