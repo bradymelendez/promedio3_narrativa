@@ -7,8 +7,8 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
     public GameObject objectToSave;
-    private Vector3 lastCheckpointPosition; // Almacena la posición del último checkpoint guardado
-    private int lastCheckpointHealth; // Almacena la vida del jugador en el último checkpoint
+    private Vector3 lastCheckpointPosition;
+    private int lastCheckpointHealth; 
 
     private void SavePlayerProgress(Vector3 playerPosition, int playerHealth)
     {
