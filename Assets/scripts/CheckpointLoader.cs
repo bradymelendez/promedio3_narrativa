@@ -16,7 +16,7 @@ public class CheckpointLoader : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ShowMessageForTime("No checkpoint available!", messageDuration));
+            StartCoroutine(ShowMessageForTime("No has guardado partida!", messageDuration));
         }
     }
 
