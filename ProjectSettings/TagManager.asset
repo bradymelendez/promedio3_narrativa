@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemigo
   - Roca
+  - Detected
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class HealthDisplay : MonoBehaviour
 {
     public Image[] hearts;
+
     public void UpdateHearts(int currentHealth, int maxHealth)
     {
         int heartCount = hearts.Length;

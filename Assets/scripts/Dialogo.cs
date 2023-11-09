@@ -6,21 +6,25 @@ using UnityEngine.UI;
 
 public class Dialogo: MonoBehaviour
 {
+    public TextMeshProUGUI messageText;
+    public LayerMask playerLayer;
     public GameObject dialogueIcon;
     public GameObject dialoguePanelText;
-
     [SerializeField, TextArea(4, 6)] private string[] dialogueTextBox;
     public TextMeshProUGUI textDialogue;
     public bool dialogueExist;
     public bool dialogueStart;
     int index;
-    // Start is called before the first frame update
+
     void Start()
     {
         dialogueIcon.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false;
+        messageText.gameObject.SetActive(false);
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (dialogueExist && Input.GetKeyDown(KeyCode.E))
@@ -28,6 +32,8 @@ public class Dialogo: MonoBehaviour
             if (!dialogueStart)
             {
                 StartDialogue();
+                ToggleCursor(true);
+                messageText.gameObject.SetActive(false);
 
             }
             else if (textDialogue.text == dialogueTextBox[index])
@@ -41,6 +47,19 @@ public class Dialogo: MonoBehaviour
             }
         }
     }
+    private void ToggleCursor(bool state)
+    {
+        if (state)
+        {
+            Cursor.lockState = CursorLockMode.None; 
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked; 
+            Cursor.visible = false;
+        }
+    }
     private IEnumerator CountLineText()
     {
         textDialogue.text = string.Empty;
@@ -52,8 +71,6 @@ public class Dialogo: MonoBehaviour
     }
     void StartDialogue()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
         dialogueStart = true;
         dialoguePanelText.SetActive(true);
         dialogueIcon.SetActive(false);
@@ -72,6 +89,7 @@ public class Dialogo: MonoBehaviour
             dialogueStart = false;
             dialoguePanelText.SetActive(false);
             dialogueIcon.SetActive(true);
+            ToggleCursor(false);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -80,6 +98,8 @@ public class Dialogo: MonoBehaviour
         {
             dialogueExist = true;
             dialogueIcon.SetActive(true);
+            messageText.gameObject.SetActive(true);
+
         }
 
     }
@@ -87,11 +107,10 @@ public class Dialogo: MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
             dialogueExist = false;
             dialogueIcon.SetActive(false);
             dialoguePanelText.SetActive(false);
+            messageText.gameObject.SetActive(false);
 
         }
     }

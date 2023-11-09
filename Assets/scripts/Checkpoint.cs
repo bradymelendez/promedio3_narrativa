@@ -9,10 +9,30 @@ public class Checkpoint : MonoBehaviour
     public GameObject objectToSave;
     private Vector3 lastCheckpointPosition;
     private int lastCheckpointHealth;
+    private float timeBeforeNextSave = 60f; 
+    private float timer = 0f;
+    private bool canSave = true;
 
     public void Start()
     {
         Time.timeScale = 1;
+    }
+    public void Update()
+    {
+        if (!canSave)
+        {
+            timer += Time.deltaTime;
+            if (timer >= timeBeforeNextSave)
+            {
+                canSave = true;
+                timer = 0f;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            SaveProgressIfCollidedAndKeyPressed();
+        }
     }
     public void SavePlayerProgress(Vector3 playerPosition, int playerHealth)
     {
@@ -37,22 +57,37 @@ public class Checkpoint : MonoBehaviour
     {
         return lastCheckpointHealth;
     }
+    public void SaveProgressIfCollidedAndKeyPressed()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && hasCollided && canSave)
+        {
+            SavePlayerProgress(lastCollisionPosition, lastCollisionHealth);
+            canSave = false;
+        }
+    }
 
-    public void OnTriggerEnter(Collider other)
+    private bool hasCollided = false;
+
+    private Vector3 lastCollisionPosition;
+    private int lastCollisionHealth;
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == objectToSave)
         {
-            Player player = objectToSave.GetComponent<Player>();
+            Player player = other.gameObject.GetComponent<Player>(); 
 
             if (player != null)
             {
                 Vector3 playerPosition = player.transform.position;
                 int playerHealth = player.currentHealth;
 
-                SavePlayerProgress(playerPosition, playerHealth);
-                player.SetLastCheckpoint(this); 
+                lastCollisionPosition = playerPosition;
+                lastCollisionHealth = playerHealth;
+                hasCollided = true;
+
+                player.SetLastCheckpoint(this);
             }
         }
     }
-
 }

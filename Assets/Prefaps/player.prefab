@@ -625,8 +625,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
-  currentHealth: 0
+  currentHealth: 5
   healthDisplay: {fileID: 0}
+  gameOverCanvas: {fileID: 0}
+  returnToCheckpointButton: {fileID: 0}
 --- !u!114 &7423423411720597093
 MonoBehaviour:
   m_ObjectHideFlags: 0

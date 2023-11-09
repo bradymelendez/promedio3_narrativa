@@ -17,19 +17,34 @@ public class CheckpointManager: MonoBehaviour
                 PlayerPrefs.GetFloat("CheckpointPositionZ")
             );
             checkpointHealth = PlayerPrefs.GetInt("CheckpointHealth");
-        }
 
-        InitializePlayer();
+            InitializePlayer();
+        }
     }
 
     void InitializePlayer()
     {
-        Player player = FindObjectOfType<Player>();
+        Player player = GetPlayerReference();
 
         if (player != null)
         {
             player.transform.position = checkpointPosition;
             player.currentHealth = checkpointHealth;
+        }
+    }
+
+    Player GetPlayerReference()
+    {
+        GameObject playerObject = GameObject.FindWithTag("Player");
+
+        if (playerObject != null)
+        {
+            return playerObject.GetComponent<Player>();
+        }
+        else
+        {
+            Debug.LogError("Player object not found in the scene or not tagged as 'Player'.");
+            return null;
         }
     }
 }
