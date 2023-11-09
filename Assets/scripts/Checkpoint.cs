@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
     public GameObject objectToSave;
     private Vector3 lastCheckpointPosition;
     private int lastCheckpointHealth;
-    private float timeBeforeNextSave = 60f; 
+    private float timeBeforeNextSave = 60f;
     private float timer = 0f;
     private bool canSave = true;
 
@@ -17,11 +17,15 @@ public class Checkpoint : MonoBehaviour
     {
         Time.timeScale = 1;
     }
+
     public void Update()
     {
         if (!canSave)
         {
             timer += Time.deltaTime;
+            float timeRemaining = timeBeforeNextSave - timer;
+            Debug.Log("Tiempo restante para guardar: " + timeRemaining.ToString("F1"));
+
             if (timer >= timeBeforeNextSave)
             {
                 canSave = true;
