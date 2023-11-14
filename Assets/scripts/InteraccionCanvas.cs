@@ -52,6 +52,8 @@ public class InteraccionCanvas : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             dentroDelColisionador = false;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             DesactivarCanvas();
         }
     }

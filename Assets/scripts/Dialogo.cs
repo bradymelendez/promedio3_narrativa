@@ -107,6 +107,8 @@ public class Dialogo: MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             dialogueExist = false;
             dialogueIcon.SetActive(false);
             dialoguePanelText.SetActive(false);
