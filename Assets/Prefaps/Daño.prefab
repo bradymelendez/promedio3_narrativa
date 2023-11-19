@@ -127,4 +127,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vidaInicial: 100
   vidaActual: 0
-  "da\xF1orecibido": 50
+  "da\xF1oRecibido": 20
+  jugador: {fileID: 0}
+  rangoDeSeguimiento: 4
+  velocidad: 5
+  tiempoEntreGolpes: 2
+  distanciaRetroceso: 2
