@@ -5,7 +5,8 @@ using System.IO;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
-{
+{   
+    public GameObject objecttext;
     public GameObject objectToSave;
     private Vector3 lastCheckpointPosition;
     private int lastCheckpointHealth;
@@ -25,6 +26,7 @@ public class Checkpoint : MonoBehaviour
             timer += Time.deltaTime;
             float timeRemaining = timeBeforeNextSave - timer;
             Debug.Log("Tiempo restante para guardar: " + timeRemaining.ToString("F1"));
+            objecttext.gameObject.SetActive(true);
 
             if (timer >= timeBeforeNextSave)
             {

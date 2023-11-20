@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ActivarCanvas: MonoBehaviour
 {
     public Canvas canvasParaActivar;
-
+    public float time;
     void Start()
     {
         // Desactivar el Canvas al inicio del juego
@@ -18,7 +18,7 @@ public class ActivarCanvas: MonoBehaviour
         canvasParaActivar.gameObject.SetActive(true);
 
         // Llamar al método DesactivarCanvas después de 5 segundos
-        Invoke("DesactivarCanvas", 5f);
+        Invoke("DesactivarCanvas", time);
     }
 
     void DesactivarCanvas()
