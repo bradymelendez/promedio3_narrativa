@@ -5,33 +5,43 @@ using System.IO;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
-{   
+{
     public GameObject objecttext;
     public GameObject objectToSave;
+
     private Vector3 lastCheckpointPosition;
     private int lastCheckpointHealth;
+
     private float timeBeforeNextSave = 60f;
-    private float timer = 0f;
+    private float timer = 60f;
     private bool canSave = true;
 
-    public void Start()
+    private bool hasCollided = false;
+    private Vector3 lastCollisionPosition;
+    private int lastCollisionHealth;
+
+    private void Start()
     {
         Time.timeScale = 1;
+        objecttext.SetActive(false);
     }
 
-    public void Update()
+    private void Update()
     {
         if (!canSave)
         {
-            timer += Time.deltaTime;
-            float timeRemaining = timeBeforeNextSave - timer;
-            Debug.Log("Tiempo restante para guardar: " + timeRemaining.ToString("F1"));
-            objecttext.gameObject.SetActive(true);
+            timer -= Time.deltaTime;
 
-            if (timer >= timeBeforeNextSave)
+            if (timer <= 0f)
             {
                 canSave = true;
-                timer = 0f;
+                timer = timeBeforeNextSave;
+                objecttext.SetActive(false);
+            }
+            else
+            {
+                float timeRemaining = timer;
+                Debug.Log("Tiempo restante para guardar: " + timeRemaining.ToString("F1"));
             }
         }
 
@@ -40,7 +50,8 @@ public class Checkpoint : MonoBehaviour
             SaveProgressIfCollidedAndKeyPressed();
         }
     }
-    public void SavePlayerProgress(Vector3 playerPosition, int playerHealth)
+
+    private void SavePlayerProgress(Vector3 playerPosition, int playerHealth)
     {
         lastCheckpointPosition = playerPosition;
         lastCheckpointHealth = playerHealth;
@@ -63,25 +74,22 @@ public class Checkpoint : MonoBehaviour
     {
         return lastCheckpointHealth;
     }
-    public void SaveProgressIfCollidedAndKeyPressed()
+
+    private void SaveProgressIfCollidedAndKeyPressed()
     {
-        if (Input.GetKeyDown(KeyCode.F) && hasCollided && canSave)
+        if (hasCollided && canSave)
         {
             SavePlayerProgress(lastCollisionPosition, lastCollisionHealth);
             canSave = false;
+            objecttext.SetActive(true);
         }
     }
-
-    private bool hasCollided = false;
-
-    private Vector3 lastCollisionPosition;
-    private int lastCollisionHealth;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == objectToSave)
         {
-            Player player = other.gameObject.GetComponent<Player>(); 
+            Player player = other.gameObject.GetComponent<Player>();
 
             if (player != null)
             {
