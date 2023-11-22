@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     private int healthBeforeCheckpoint;
     private Vector3 positionBeforeCheckpoint;
     private Checkpoint lastCheckpoint;
+    private bool isEscapeBlocked = false;
+
 
     private void Start()
     {
@@ -27,7 +29,14 @@ public class Player : MonoBehaviour
             returnToCheckpointButton.gameObject.SetActive(false);
         }
     }
-
+    private void Update()
+    {
+        if (isEscapeBlocked && Input.GetKeyDown(KeyCode.Escape))
+        {
+            Input.ResetInputAxes();
+            return;
+        }
+    }
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -71,6 +80,7 @@ public class Player : MonoBehaviour
         {
             TeleportToCheckpoint(lastCheckpoint);
         }
+        isEscapeBlocked = true;
     }
 
     public void TeleportToCheckpoint(Checkpoint checkpoint)
@@ -113,6 +123,8 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             returnToCheckpointButton.gameObject.SetActive(false);
+
+            isEscapeBlocked = false;
         }
         else
         {
