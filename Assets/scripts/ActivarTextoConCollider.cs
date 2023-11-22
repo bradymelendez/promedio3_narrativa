@@ -7,6 +7,7 @@ public class ActivarTextoConCollider : MonoBehaviour
     public TextMeshProUGUI textoAActivar;
     public GameObject panelAActivar;
     public float tiempoEntreLetras = 0.1f;
+    public float tiempoAntesDeDestruir = 0.5f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,14 +20,18 @@ public class ActivarTextoConCollider : MonoBehaviour
 
     private IEnumerator MostrarTextoPorLetras(string texto)
     {
-        textoAActivar.text = "";
+        TextMeshProUGUI textoLocal = Instantiate(textoAActivar);
+        textoLocal.text = "";
 
-        foreach (char letra in texto)
+        int i = 0;
+        while (i < texto.Length)
         {
-            textoAActivar.text += letra;
+            textoLocal.text += texto[i++];
             yield return new WaitForSeconds(tiempoEntreLetras);
         }
-        yield return new WaitForSeconds(0.5f);
-        Destroy(gameObject);
+
+        yield return new WaitForSeconds(tiempoAntesDeDestruir);
+        Destroy(textoLocal.gameObject); // Destruir la copia local
+        Destroy(gameObject); // Destruir el objeto original
     }
 }
