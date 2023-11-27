@@ -4,108 +4,88 @@ using UnityEngine;
 
 public class Enemigo : MonoBehaviour
 {
-    public float vidaInicial = 100f;
-    public float vidaActual;
-    public float dañoRecibido = 20;
-    public Transform jugador;
-    public float rangoDeSeguimiento = 10f;
-    public float velocidad = 5f;
-    public float tiempoEntreGolpes = 2f;
-    public float distanciaRetroceso = 2f; // Distancia de retroceso cuando toca al jugador
-    private bool puedeHacerDaño = true;
-    private bool retrocediendo = false; // Variable para controlar si el enemigo está retrocediendo
+    public float velocidadMovimiento = 3.0f;
+    public float distanciaMinima = 1.0f;
+    public float distanciaPerseguir = 5.0f;
+    public float tiempoEsperaDespuesDeImpacto = 3.0f;
+    public int vidaInicial = 3;  // Ajusta según sea necesario
+
+    private Transform jugador;
+    private bool esperandoDespuesDeImpacto;
+    private Vector3 direccion;
+    private int vidaActual;
 
     void Start()
     {
+        jugador = GameObject.FindGameObjectWithTag("Player").transform;
+        esperandoDespuesDeImpacto = false;
         vidaActual = vidaInicial;
     }
 
     void Update()
     {
-        if (!retrocediendo)
+        float distanciaAlJugador = Vector3.Distance(transform.position, jugador.position);
+
+        if (!esperandoDespuesDeImpacto && distanciaAlJugador <= distanciaPerseguir)
         {
             SeguirJugador();
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Roca"))
-        {
-            RecibirDanio(dañoRecibido);
-        }
-        else if (other.CompareTag("Player") && puedeHacerDaño)
-        {
-            Retroceder();
-            // Inicia el temporizador
-            StartCoroutine(ActivarTemporizador());
-        }
-    }
-
-    public void RecibirDanio(float cantidadDanio)
-    {
-        vidaActual -= cantidadDanio;
-
-        if (vidaActual <= 0)
-        {
-            Morir();
-        }
-
-        if (puedeHacerDaño)
-        {
-            // Aplica el daño al jugador
-            // Agrega aquí tu lógica para causar daño al jugador
-
-            // Inicia el temporizador
-            StartCoroutine(ActivarTemporizador());
-        }
-    }
-
-    void Morir()
-    {
-        Debug.Log("El enemigo ha muerto");
-        Destroy(gameObject);
-    }
-
     void SeguirJugador()
     {
-        float distanciaAlJugador = Vector3.Distance(transform.position, jugador.position);
+        // Calcular la dirección hacia el jugador
+        direccion = jugador.position - transform.position;
+        direccion.Normalize();
 
-        if (distanciaAlJugador <= rangoDeSeguimiento)
+        // Rotar para mirar al jugador
+        transform.LookAt(jugador);
+
+        // Mover hacia el jugador si la distancia es mayor que la distancia mínima
+        if (Vector3.Distance(transform.position, jugador.position) > distanciaMinima)
         {
-            Vector3 direccionAlJugador = (jugador.position - transform.position).normalized;
-            transform.Translate(direccionAlJugador * velocidad * Time.deltaTime);
+            transform.Translate(direccion * velocidadMovimiento * Time.deltaTime, Space.World);
         }
     }
 
-    void Retroceder()
-    {
-        retrocediendo = true;
-        Vector3 direccionRetroceso = (transform.position - jugador.position).normalized;
-        transform.Translate(direccionRetroceso * distanciaRetroceso);
-    }
-
-    // Corrutina para activar el temporizador
-    IEnumerator ActivarTemporizador()
-    {
-        // Desactiva la posibilidad de hacer daño
-        puedeHacerDaño = false;
-
-        // Espera el tiempo especificado
-        yield return new WaitForSeconds(tiempoEntreGolpes);
-
-        // Activa la posibilidad de hacer daño nuevamente
-        puedeHacerDaño = true;
-
-        // Reinicia la variable de retroceso
-        retrocediendo = false;
-    }
-
-    // Método para visualizar el rango de seguimiento en el Editor de Unity
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, rangoDeSeguimiento);
+        // Dibujar un gizmo esférico para visualizar el radio de persecución
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, distanciaPerseguir);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("¡El jugador ha sido impactado!");
+
+            // Reducir la vida del enemigo
+            vidaActual--;
+
+            if (vidaActual <= 0)
+            {
+                // Si la vida llega a cero, el enemigo muere
+                Destroy(gameObject);
+            }
+            else
+            {
+                // Si la vida no es cero, detener al enemigo y esperar después del impacto
+                esperandoDespuesDeImpacto = true;
+                velocidadMovimiento = 0f;
+
+                // Iniciar la espera de tiempo
+                Invoke("ReiniciarSeguimiento", tiempoEsperaDespuesDeImpacto);
+            }
+        }
+    }
+
+    void ReiniciarSeguimiento()
+    {
+        // Reiniciar el seguimiento después del tiempo de espera
+        esperandoDespuesDeImpacto = false;
+        velocidadMovimiento = 3.0f;
     }
 }
 
