@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [HideInInspector] public Rigidbody rb;
-    //PlayerJump pJump;
 
     [Header("Movement")]
     float movementSpeed;
@@ -32,11 +31,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundMask;
     public bool isGrounded { get; private set; }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
-
 
     void Update()
     {
@@ -48,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         MovePlayer();
-
     }
 
     void PlayerInput()
@@ -61,18 +59,21 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayer()
     {
-
         ControlDrag();
         movementSpeed = walkSpeed * speedMultiplier;
+
         if (OnSlope())
         {
-            rb.AddForce(GetSlopeMoveDir() * movementSpeed * 1.2f, ForceMode.Acceleration);
+            Vector3 slopeMoveDirection = GetSlopeMoveDir();
+            rb.AddForce(slopeMoveDirection * movementSpeed * 1.2f, ForceMode.Acceleration);
         }
         else
         {
             rb.AddForce(moveDirection.normalized * movementSpeed, ForceMode.Acceleration);
         }
 
+        // Apply global gravity
+        rb.AddForce(Vector3.up * globalGravity, ForceMode.Acceleration);
     }
 
     bool OnSlope()
@@ -110,7 +111,6 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         }
     }
-
 
     void CheckGround()
     {
