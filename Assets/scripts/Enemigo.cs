@@ -4,88 +4,53 @@ using UnityEngine;
 
 public class Enemigo : MonoBehaviour
 {
-    public float velocidadMovimiento = 3.0f;
-    public float distanciaMinima = 1.0f;
-    public float distanciaPerseguir = 5.0f;
-    public float tiempoEsperaDespuesDeImpacto = 3.0f;
-    public int vidaInicial = 3;  // Ajusta según sea necesario
+    Rigidbody rb;
+    Transform player;
 
-    private Transform jugador;
-    private bool esperandoDespuesDeImpacto;
-    private Vector3 direccion;
-    private int vidaActual;
+    public float speed;
+    bool gotPlayer = false;
+    public float waitTime;
 
     void Start()
     {
-        jugador = GameObject.FindGameObjectWithTag("Player").transform;
-        esperandoDespuesDeImpacto = false;
-        vidaActual = vidaInicial;
+        rb = GetComponent<Rigidbody>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
-        float distanciaAlJugador = Vector3.Distance(transform.position, jugador.position);
+        Debug.Log(gotPlayer);
 
-        if (!esperandoDespuesDeImpacto && distanciaAlJugador <= distanciaPerseguir)
+        if (!gotPlayer) MoveToPlayer();
+        else
         {
-            SeguirJugador();
+            if (!isRunning) StartCoroutine(WaitABit());
         }
     }
 
-    void SeguirJugador()
+    void MoveToPlayer()
     {
-        // Calcular la dirección hacia el jugador
-        direccion = jugador.position - transform.position;
-        direccion.Normalize();
+        Vector3 direction = (player.position - transform.position).normalized;
+        rb.velocity = direction * speed;
+    }
 
-        // Rotar para mirar al jugador
-        transform.LookAt(jugador);
+    bool isRunning = false;
+    IEnumerator WaitABit()
+    {
+        isRunning = true;
+        rb.velocity = Vector3.zero;
+        yield return new WaitForSeconds(waitTime);
+        gotPlayer = false;
+        isRunning = false;
+    }
 
-        // Mover hacia el jugador si la distancia es mayor que la distancia mínima
-        if (Vector3.Distance(transform.position, jugador.position) > distanciaMinima)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && !gotPlayer)
         {
-            transform.Translate(direccion * velocidadMovimiento * Time.deltaTime, Space.World);
+            Debug.Log("CHOCO");
+            gotPlayer = true;
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // Dibujar un gizmo esférico para visualizar el radio de persecución
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, distanciaPerseguir);
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("¡El jugador ha sido impactado!");
-
-            // Reducir la vida del enemigo
-            vidaActual--;
-
-            if (vidaActual <= 0)
-            {
-                // Si la vida llega a cero, el enemigo muere
-                Destroy(gameObject);
-            }
-            else
-            {
-                // Si la vida no es cero, detener al enemigo y esperar después del impacto
-                esperandoDespuesDeImpacto = true;
-                velocidadMovimiento = 0f;
-
-                // Iniciar la espera de tiempo
-                Invoke("ReiniciarSeguimiento", tiempoEsperaDespuesDeImpacto);
-            }
-        }
-    }
-
-    void ReiniciarSeguimiento()
-    {
-        // Reiniciar el seguimiento después del tiempo de espera
-        esperandoDespuesDeImpacto = false;
-        velocidadMovimiento = 3.0f;
     }
 }
 

@@ -126,11 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7627dc72b6c859145a49c78491b11d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidadMovimiento: 3
-  distanciaMinima: 1
-  distanciaPerseguir: 5
-  tiempoEsperaDespuesDeImpacto: 3
-  vidaInicial: 100
+  speed: 5
+  waitTime: 3
 --- !u!1001 &3092280321922318354
 PrefabInstance:
   m_ObjectHideFlags: 0
