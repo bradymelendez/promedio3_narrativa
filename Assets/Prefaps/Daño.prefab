@@ -97,10 +97,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.20349109
+  m_Radius: 0.4548936
   m_Height: 1.568995
   m_Direction: 1
-  m_Center: {x: 0.027470589, y: -0.2155025, z: -0.030507445}
+  m_Center: {x: -0.060676098, y: -0.2155025, z: -0.030507445}
 --- !u!114 &6421290244353925796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,14 +126,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7627dc72b6c859145a49c78491b11d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocidadMovimiento: 3
+  distanciaMinima: 1
+  distanciaPerseguir: 5
+  tiempoEsperaDespuesDeImpacto: 3
   vidaInicial: 100
-  vidaActual: 0
-  "da\xF1oRecibido": 50
-  jugador: {fileID: 0}
-  rangoDeSeguimiento: 15
-  velocidad: 2
-  tiempoEntreGolpes: 2
-  distanciaRetroceso: 2
 --- !u!1001 &3092280321922318354
 PrefabInstance:
   m_ObjectHideFlags: 0
