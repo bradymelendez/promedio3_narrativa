@@ -6,6 +6,11 @@ using UnityEngine.UI;
 public class Teletransporte : MonoBehaviour
 {
     public Transform destino;
+    public GameObject pantalla ;
+    public void Start()
+    {
+        pantalla.SetActive(false);
+    }
     public void MoverJugadorAlDestino()
     {
         if (destino != null)
@@ -15,10 +20,11 @@ public class Teletransporte : MonoBehaviour
             Player.position = destino.position;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            pantalla.SetActive(true);
         }
         else
         {
-            Debug.LogError("No se ha asignado un destino en el Inspector.");
+            Debug.LogError("No se ha asignado un destino en el Inspector.");      
         }
     }
 }
