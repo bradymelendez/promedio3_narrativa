@@ -85,23 +85,22 @@ public class Checkpoint : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == objectToSave)
+        Player player = other.GetComponent<Player>();
+
+        if (player != null && other.gameObject == objectToSave)
         {
-            Player player = other.gameObject.GetComponent<Player>();
+            Vector3 playerPosition = player.transform.position;
+            int playerHealth = player.currentHealth;
 
-            if (player != null)
-            {
-                Vector3 playerPosition = player.transform.position;
-                int playerHealth = player.currentHealth;
+            lastCollisionPosition = playerPosition;
+            lastCollisionHealth = playerHealth;
+            hasCollided = true;
 
-                lastCollisionPosition = playerPosition;
-                lastCollisionHealth = playerHealth;
-                hasCollided = true;
+            player.SetLastCheckpoint(this);
 
-                player.SetLastCheckpoint(this);
-            }
+            Debug.Log("Colisión con el checkpoint. Posición: " + playerPosition + ", Salud: " + playerHealth);
         }
     }
 }

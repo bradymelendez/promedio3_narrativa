@@ -30,6 +30,8 @@ public class CheckpointManager: MonoBehaviour
         {
             player.transform.position = checkpointPosition;
             player.currentHealth = checkpointHealth;
+
+            Debug.Log("Jugador inicializado en posición: " + checkpointPosition + ", Salud: " + checkpointHealth);
         }
     }
 
@@ -43,7 +45,7 @@ public class CheckpointManager: MonoBehaviour
         }
         else
         {
-            Debug.LogError("Player object not found in the scene or not tagged as 'Player'.");
+            Debug.LogError("El objeto jugador no se encuentra en la escena o no está etiquetado como ´player´");
             return null;
         }
     }

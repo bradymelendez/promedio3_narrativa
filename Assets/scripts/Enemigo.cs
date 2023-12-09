@@ -8,6 +8,7 @@ public class Enemigo : MonoBehaviour
     Transform player;
 
     public float speed;
+    public float detectionRange;
     bool gotPlayer = false;
     public float waitTime;
 
@@ -19,7 +20,7 @@ public class Enemigo : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(gotPlayer);
+        //Debug.Log(gotPlayer);
 
         if (!gotPlayer) MoveToPlayer();
         else
@@ -30,8 +31,17 @@ public class Enemigo : MonoBehaviour
 
     void MoveToPlayer()
     {
-        Vector3 direction = (player.position - transform.position).normalized;
-        rb.velocity = direction * speed;
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= detectionRange)
+        {
+            Vector3 direction = (player.position - transform.position).normalized;
+            rb.velocity = direction * speed;
+        }
+        else
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     bool isRunning = false;
