@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 1381822355220905895}
   m_Father: {fileID: 1388516449387167493}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3242627142377798389
 CapsuleCollider:
@@ -128,7 +128,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1388516449387167493}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1418666227040326571
 GameObject:
@@ -161,7 +161,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5098349549238418970}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &854405145318082442
 Camera:
@@ -240,13 +240,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3605797523648508186}
-  m_LocalRotation: {x: 0.31625602, y: 0.6195189, z: 0.32666016, w: 0.6398997}
-  m_LocalPosition: {x: 0.294, y: 0.262, z: 0.498}
-  m_LocalScale: {x: 0.0025898626, y: 0.0025898633, z: 0.0025898626}
+  m_LocalRotation: {x: 0.31625605, y: 0.61951894, z: 0.32666016, w: 0.63989973}
+  m_LocalPosition: {x: 0.238, y: -0.146, z: 0.732}
+  m_LocalScale: {x: 0.0025898623, y: 0.0025898633, z: 0.0025898623}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 893732949992486760}
-  m_Father: {fileID: 1388516449387167493}
+  m_Father: {fileID: 5098349549238418970}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 88.146, z: 54.087}
 --- !u!33 &6281589471969512969
@@ -375,8 +375,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -446,7 +445,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6610034362587806881}
   - {fileID: 630456750474147244}
   - {fileID: 5098349549238418970}
   - {fileID: 120872106106870718}
@@ -719,9 +717,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6610034362587806881}
   - {fileID: 734656953853060607}
   m_Father: {fileID: 1388516449387167493}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3039352690680236322
 MonoBehaviour:

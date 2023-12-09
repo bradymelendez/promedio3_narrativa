@@ -44,6 +44,7 @@ public class Enemigo : MonoBehaviour
         }
     }
 
+
     bool isRunning = false;
     IEnumerator WaitABit()
     {
