@@ -186,3 +186,18 @@ MonoBehaviour:
   speed: 2
   detectionRange: 6
   waitTime: 3
+--- !u!114 &6410216339040427666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5361231349334409150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9f431940527e0048bb0a0cca07c862e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vidaInicial: 100
+  vidaActual: 0
+  "da\xF1orecibido": 50
