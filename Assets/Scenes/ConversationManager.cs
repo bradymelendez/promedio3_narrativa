@@ -14,6 +14,7 @@ public class DialogueLine
 public class ConversationManager: MonoBehaviour
 {
     public DialogueLine[] dialogueLines;
+    public PlayerTrigger playerTrigger;
 
     private bool isPlayerInRange;
     private int currentLineIndex;
@@ -25,6 +26,7 @@ public class ConversationManager: MonoBehaviour
         {
             if (!isDialogueActive)
             {
+                playerTrigger.interactionText.gameObject.SetActive(false);
                 StartConversation();
             }
             else
@@ -58,6 +60,7 @@ public class ConversationManager: MonoBehaviour
     {
         isDialogueActive = false;
         UIManager.Instance.HideDialogue();
+        playerTrigger.ShowInteractionText();
     }
 
     private void OnTriggerEnter(Collider other)
